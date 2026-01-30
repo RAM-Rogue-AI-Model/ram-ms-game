@@ -1,0 +1,20 @@
+meta {
+  name: Update Inventory
+  type: http
+  seq: 5
+}
+
+patch {
+  url: {{baseUrl}}/game/YOUR_GAME_ID_HERE
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "consumables": {
+        "potions": 2,
+        "elixirs": 0
+    }
+  }
+}

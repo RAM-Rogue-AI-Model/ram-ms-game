@@ -1,0 +1,22 @@
+meta {
+  name: Create Game
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/game
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "pv": "100 HP",
+    "consumables": {
+        "potions": 5,
+        "elixirs": 2
+    },
+    "money": 500
+  }
+}

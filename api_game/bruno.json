@@ -1,0 +1,10 @@
+{
+    "version": "1",
+    "name": "ram-ms-game",
+    "type": "collection",
+    "ignore": [
+        ".git",
+        "node_modules",
+        ".env"
+    ]
+}

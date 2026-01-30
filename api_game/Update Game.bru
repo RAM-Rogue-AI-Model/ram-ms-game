@@ -1,0 +1,17 @@
+meta {
+  name: Update Game
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{baseUrl}}/game/YOUR_GAME_ID_HERE
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "money": 600
+  }
+}
