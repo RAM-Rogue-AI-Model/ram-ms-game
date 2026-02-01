@@ -1,6 +1,7 @@
+import 'dotenv/config';
+
 import cors from 'cors';
 import express from 'express';
-import 'dotenv/config';
 
 import { GameController } from './controllers/gameController';
 import { GameRouter } from './routes/gameRouter';
@@ -12,16 +13,12 @@ const port = config.PORT;
 
 app.use(
   cors({
-    origin: [process.env.CLIENT_URL ?? 'http://localhost:3000'],
+    origin: [config.API_GATEWAY_URL],
     credentials: true,
   })
 );
 
 app.use(express.json());
-
-app.get('/', (req, res) => {
-  res.send('Hello Game!');
-});
 
 const gameService = new GameService();
 const gameController = new GameController(gameService);

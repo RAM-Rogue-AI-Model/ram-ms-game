@@ -1,0 +1,18 @@
+version: '5.0.2'
+
+services:
+  db:
+    image: mariadb:latest
+    container_name: ram-ms-game-db
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: ram_password
+      MARIADB_DATABASE: ram-ms-game-db
+      MARIADB_USER: user
+      MARIADB_PASSWORD: ram_password
+    ports:
+      - '3305:3306'
+    volumes:
+      - mariadb_data:/var/lib/mysql
+volumes:
+  mariadb_data:

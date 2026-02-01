@@ -8,11 +8,19 @@ datasource db {
   provider = "mysql"
 }
 
+enum DUNGEON {
+  DUNGEON
+  SHOP
+  DATACENTER
+}
+
 model Game {
   id          String   @id @default(uuid())
   pv          Int
   consumables Json     // Inventory (Int[])
   money       Int
+  userId      String
+  ended       Boolean
   steps       Game_Step[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -20,7 +28,8 @@ model Game {
 
 model Game_Step {
   id        String   @id @default(uuid())
-  type      String
+  type      DUNGEON
+  completed Boolean  @default(false)
   date_add  DateTime @default(now())
   game_id   String
   game      Game     @relation(fields: [game_id], references: [id])

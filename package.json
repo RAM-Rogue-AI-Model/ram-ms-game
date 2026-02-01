@@ -2,15 +2,17 @@
   "name": "ram-ms-game",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/app.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "tsx app.ts",
+    "dev": "tsx watch src/app.ts",
     "build": "tsc",
-    "start": "node dist/app.js",
-    "lint": "eslint .",
+    "start": "node dist/app.ts",
+    "lint": "eslint src/",
     "format": "prettier --write .",
-    "fixer": "pnpm format && pnpm lint --fix"
+    "fixer": "pnpm format && pnpm lint --fix",
+    "prisma:generate": "prisma generate",
+    "postinstall": "prisma generate"
   },
   "keywords": [],
   "author": "",
