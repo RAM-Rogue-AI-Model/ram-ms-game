@@ -58,14 +58,14 @@ class GameRouter {
       });
 
     this.router
-      .route('/id/health')
+      .route('/:id/health')
       .get(requestDetails, authenticate, async (req, res) => {
         //Récupérer les points de vie actuels du joueur
         await gameController.getHealth(req, res);
       });
 
     this.router
-      .route('/id/consumables')
+      .route('/:id/consumables')
       .get(requestDetails, authenticate, async (req, res) => {
         //Récupérer les items actuels du joueur
         await gameController.getConsumables(req, res);
