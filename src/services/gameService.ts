@@ -7,7 +7,7 @@ class GameService {
     return prisma.game.create({
       data: {
         pv: data.pv,
-        userId: data.userId,
+        playerId: data.playerId,
         consumables: [],
         money: 0,
         ended: false,
@@ -18,10 +18,10 @@ class GameService {
     });
   }
 
-  async list(userId: string) {
+  async list(playerId: string) {
     return prisma.game.findMany({
       where: {
-        userId: userId,
+        playerId: playerId,
       },
       include: {
         steps: true,
@@ -29,11 +29,11 @@ class GameService {
     });
   }
 
-  async getById(id: string, userId: string) {
+  async getById(id: string, playerId: string) {
     return prisma.game.findUnique({
       where: {
         id: id,
-        userId: userId,
+        playerId: playerId,
       },
       include: {
         steps: true,
@@ -57,7 +57,7 @@ class GameService {
       const updatedGame = await tx.game.update({
         where: {
           id: id,
-          userId: data.userId,
+          playerId: data.playerId,
         },
         data: gameData,
       });
@@ -88,11 +88,11 @@ class GameService {
     });
   }
 
-  async delete(id: string, userId: string) {
+  async delete(id: string, playerId: string) {
     return prisma.game.delete({
       where: {
         id: id,
-        userId: userId,
+        playerId: playerId,
       },
     });
   }

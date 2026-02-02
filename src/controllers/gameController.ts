@@ -16,7 +16,7 @@ class GameController {
   async create(req: Request, res: Response) {
     try {
       const body = req.body as Partial<CreateGameInput>;
-      if (!body.pv || !body.userId) {
+      if (!body.pv || !body.playerId) {
         return res.status(400).json({ error: 'Missing required fields' });
       }
 
@@ -32,15 +32,15 @@ class GameController {
   //DONE - find all games of a user
   async getAll(req: Request, res: Response) {
     try {
-      const { userId } = req.query;
+      const { playerId } = req.query;
 
-      if (!userId || typeof userId !== 'string') {
+      if (!playerId || typeof playerId !== 'string') {
         return res.status(400).json({
-          error: 'userId query param is required',
+          error: 'playerId query param is required',
         });
       }
 
-      const games = await this.service.list(userId);
+      const games = await this.service.list(playerId);
       res.json(games);
     } catch (err) {
       console.error(err);
@@ -52,14 +52,14 @@ class GameController {
   //DONE - find one game of a user
   async getById(req: Request, res: Response) {
     try {
-      const { userId } = req.query;
+      const { playerId } = req.query;
       const id: string = req.params.id as string;
 
-      if (!id || !userId || typeof userId !== 'string') {
+      if (!id || !playerId || typeof playerId !== 'string') {
         return res.status(400).json({ error: 'Missing parameters' });
       }
 
-      const game = await this.service.getById(id, userId);
+      const game = await this.service.getById(id, playerId);
 
       if (!game) {
         return res.status(404).json({ error: 'Game not found' });
@@ -78,11 +78,11 @@ class GameController {
     try {
       const id: string = req.params.id as string;
       const body = req.body as Partial<UpdateGameInput>;
-      if (!id || !body.userId) {
+      if (!id || !body.playerId) {
         return res.status(400).json({ error: 'Missing game id' });
       }
 
-      const gameExists = await this.service.getById(id, body.userId);
+      const gameExists = await this.service.getById(id, body.playerId);
       if (!gameExists) {
         return res.status(404).json({ error: 'Game not found' });
       }
@@ -99,19 +99,19 @@ class GameController {
   //DONE - delete game
   async deleteGame(req: Request, res: Response) {
     try {
-      const { userId } = req.query;
+      const { playerId } = req.query;
       const id: string = req.params.id as string;
 
-      if (!id || !userId || typeof userId !== 'string') {
+      if (!id || !playerId || typeof playerId !== 'string') {
         return res.status(400).json({ error: 'Missing parameters' });
       }
 
-      const gameExists = await this.service.getById(id, userId);
+      const gameExists = await this.service.getById(id, playerId);
       if (!gameExists) {
         return res.status(404).json({ error: 'Game not found' });
       }
 
-      await this.service.delete(id, userId);
+      await this.service.delete(id, playerId);
 
       res.sendStatus(200);
       return;
@@ -125,14 +125,14 @@ class GameController {
   //DONE - get all dungeons
   async getAllDungeons(req: Request, res: Response) {
     try {
-      const { userId } = req.query;
+      const { playerId } = req.query;
       const id: string = req.params.id as string;
 
-      if (!id || !userId || typeof userId !== 'string') {
+      if (!id || !playerId || typeof playerId !== 'string') {
         return res.status(400).json({ error: 'Missing parameters' });
       }
 
-      const game = await this.service.getById(id, userId);
+      const game = await this.service.getById(id, playerId);
 
       if (!game) {
         return res.status(404).json({ error: 'Game not found' });
@@ -168,13 +168,13 @@ class GameController {
   async createDungeonChoice(req: Request, res: Response) {
     try {
       const id: string = req.params.id as string;
-      const { userId } = req.query;
+      const { playerId } = req.query;
 
-      if (!id || !userId || typeof userId !== 'string') {
+      if (!id || !playerId || typeof playerId !== 'string') {
         return res.status(400).json({ error: 'Missing parameters' });
       }
 
-      const gameExists = await this.service.getById(id, userId);
+      const gameExists = await this.service.getById(id, playerId);
       if (!gameExists) {
         return res.status(404).json({ error: 'Game not found' });
       }
@@ -208,14 +208,14 @@ class GameController {
   //DONE - return current health of player
   async getHealth(req: Request, res: Response) {
     try {
-      const { userId } = req.query;
+      const { playerId } = req.query;
       const id: string = req.params.id as string;
 
-      if (!id || !userId || typeof userId !== 'string') {
+      if (!id || !playerId || typeof playerId !== 'string') {
         return res.status(400).json({ error: 'Missing parameters' });
       }
 
-      const game = await this.service.getById(id, userId);
+      const game = await this.service.getById(id, playerId);
 
       if (!game) {
         return res.status(404).json({ error: 'Game not found' });
@@ -232,14 +232,14 @@ class GameController {
   //DONE - return current consumables of player
   async getConsumables(req: Request, res: Response) {
     try {
-      const { userId } = req.query;
+      const { playerId } = req.query;
       const id: string = req.params.id as string;
 
-      if (!id || !userId || typeof userId !== 'string') {
+      if (!id || !playerId || typeof playerId !== 'string') {
         return res.status(400).json({ error: 'Missing parameters' });
       }
 
-      const game = await this.service.getById(id, userId);
+      const game = await this.service.getById(id, playerId);
 
       if (!game) {
         return res.status(404).json({ error: 'Game not found' });

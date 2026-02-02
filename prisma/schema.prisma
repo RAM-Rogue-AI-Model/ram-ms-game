@@ -19,7 +19,7 @@ model Game {
   pv          Int
   consumables Json     // Inventory (Int[])
   money       Int
-  userId      String
+  playerId    String
   ended       Boolean
   steps       Game_Step[]
   createdAt   DateTime @default(now())

@@ -1,11 +1,11 @@
 export interface CreateGameInput {
   pv: number;
-  userId: string;
+  playerId: string;
 }
 
 export interface UpdateGameInput {
   pv?: number;
-  userId: string;
+  playerId: string;
   consumables?: number[];
   money?: number;
   ended?: boolean;
