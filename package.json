@@ -35,10 +35,13 @@
   "dependencies": {
     "@prisma/adapter-mariadb": "^7.3.0",
     "@prisma/client": "^7.3.0",
+    "@types/swagger-ui-express": "^4.1.8",
     "amqplib": "^0.10.9",
     "cors": "^2.8.6",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
-    "prisma": "^7.3.0"
+    "prisma": "^7.3.0",
+    "swagger-ui-express": "^5.0.1",
+    "yaml": "^2.8.2"
   }
 }

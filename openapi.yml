@@ -1,0 +1,394 @@
+openapi: 3.0.3
+info:
+  title: API RAM - Game Microservice
+  description: Documentation de l'API du microservice de gestion des parties du jeu RAM.
+  version: 1.0.0
+servers:
+  - url: http://localhost:3005
+    description: Serveur local
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    CreateGameInput:
+      type: object
+      required:
+        - pv
+        - playerId
+      properties:
+        pv:
+          type: integer
+          description: Points de vie du joueur
+        playerId:
+          type: string
+          description: Identifiant du joueur
+    UpdateGameInput:
+      type: object
+      required:
+        - playerId
+      properties:
+        pv:
+          type: integer
+          description: Points de vie du joueur
+        playerId:
+          type: string
+          description: Identifiant du joueur
+        consumables:
+          type: array
+          items:
+            type: integer
+          description: Identifiants des consommables
+        money:
+          type: integer
+          description: Argent du joueur
+        ended:
+          type: boolean
+          description: Partie terminée
+        completed:
+          type: boolean
+          description: Partie complétée
+    UpdateStepInput:
+      type: object
+      required:
+        - completed
+      properties:
+        completed:
+          type: boolean
+          description: Donjon complété
+    UpdateInventoryInput:
+      type: object
+      required:
+        - consumables
+      properties:
+        consumables:
+          type: array
+          items:
+            type: integer
+          description: Identifiants des consommables
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Message d'erreur
+security:
+  - bearerAuth: []
+paths:
+  /game:
+    get:
+      summary: Récupérer toutes les parties d'un joueur
+      parameters:
+        - in: query
+          name: playerId
+          required: true
+          schema:
+            type: string
+          description: Identifiant du joueur
+      responses:
+        '200':
+          description: Liste des parties
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+        '400':
+          description: Paramètre manquant
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Erreur serveur
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      summary: Créer une nouvelle partie
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateGameInput'
+      responses:
+        '201':
+          description: Partie créée
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Champs requis manquants ou erreur de création
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /game/{id}:
+    get:
+      summary: Récupérer une partie par son identifiant
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: playerId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Partie trouvée
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Paramètres manquants
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Partie non trouvée
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      summary: Mettre à jour une partie
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateGameInput'
+      responses:
+        '200':
+          description: Partie mise à jour
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Paramètres manquants
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Partie non trouvée
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    delete:
+      summary: Supprimer une partie
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: playerId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Partie supprimée
+        '400':
+          description: Paramètres manquants
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Partie non trouvée
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /game/{id}/dungeon:
+    get:
+      summary: Récupérer tous les donjons d'une partie
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: playerId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Liste des donjons
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+        '400':
+          description: Paramètres manquants
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Partie non trouvée
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      summary: Ajouter un donjon à une partie
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: string
+                  description: Type de donjon
+      responses:
+        '201':
+          description: Donjon ajouté
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Paramètres manquants
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /game/{id}/dungeon/choice:
+    get:
+      summary: Récupérer le choix de donjon possible
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: playerId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Liste des choix de donjon
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '400':
+          description: Paramètres manquants ou donjon non complété
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Partie non trouvée
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /game/{id}/health:
+    get:
+      summary: Récupérer les points de vie actuels du joueur
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: playerId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Points de vie du joueur
+          content:
+            application/json:
+              schema:
+                type: integer
+        '400':
+          description: Paramètres manquants
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Partie non trouvée
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /game/{id}/consumables:
+    get:
+      summary: Récupérer les consommables actuels du joueur
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: playerId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Liste des consommables
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: integer
+        '400':
+          description: Paramètres manquants
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Partie non trouvée
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
