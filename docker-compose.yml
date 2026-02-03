@@ -10,12 +10,12 @@ services:
     env_file:
       - .env
     depends_on:
-      db:
+      game-db:
         condition: service_healthy
     networks:
       - ram-shared-network
 
-  db:
+  game-db:
     image: mariadb:latest
     container_name: ram-ms-game-db
     restart: unless-stopped

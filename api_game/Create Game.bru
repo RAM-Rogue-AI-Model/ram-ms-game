@@ -10,6 +10,10 @@ post {
   auth: none
 }
 
+headers {
+  X-Internal-Secret: d02d5b72b7d8d8d54fe369cba8559cf1e329ab40eb100b5c8b3f2eace4605adc
+}
+
 body:json {
   {
     "pv": "100 HP",
@@ -19,4 +23,8 @@ body:json {
     },
     "money": 500
   }
+}
+
+vars:pre-request {
+  baseUrl: http://localhost:3005
 }
