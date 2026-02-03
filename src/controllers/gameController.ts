@@ -52,7 +52,7 @@ class GameController {
   //DONE - find one game of a user
   async getById(req: Request, res: Response) {
     try {
-      const { playerId } = req.query;
+      const playerId = req.query.playerId as string;
       const id: string = req.params.id as string;
 
       if (!id || !playerId || typeof playerId !== 'string') {
