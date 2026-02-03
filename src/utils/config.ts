@@ -14,8 +14,8 @@ const config: configType = {
   DATABASE_PORT: Number(process.env.DATABASE_PORT ?? 3305),
   DATABASE_DB_NAME: process.env.DATABASE_DB_NAME ?? 'ram-ms-game-db',
   INTERNAL_SECRET: process.env.INTERNAL_SECRET ?? 'internal_secret',
-  RABBITMQ_URL: process.env.RABBITMQ_URL ?? 'amqp://guest:guest@localhost:5672',
-
+  RABBITMQ_URL:
+    process.env.RABBITMQ_URL ?? 'amqp://guest:guest@rabbitmq_test:5672',
 };
 
 export { config };
