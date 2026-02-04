@@ -30,7 +30,7 @@ class GameService {
         'GAME',
         'INSERT',
         'ERROR',
-        `Failed to create game for player ${data.playerId}: ${error}`
+        `Failed to create game for player ${data.playerId}: ${String(error)}`
       );
       throw new Error('Failed to create game');
     }
@@ -58,7 +58,7 @@ class GameService {
         'GAME',
         'OTHER',
         'ERROR',
-        `Failed to list games for player ${playerId}: ${error}`
+        `Failed to list games for player ${playerId}: ${String(error)}`
       );
       throw new Error('Failed to list games');
     }
@@ -95,7 +95,9 @@ class GameService {
         'GAME',
         'OTHER',
         'ERROR',
-        `Failed to retrieve game with id ${id} for player ${playerId}: ${error}`
+        `Failed to retrieve game with id ${id} for player ${playerId}: ${String(
+          error
+        )}`
       );
       throw new Error('Failed to retrieve game');
     }
@@ -139,7 +141,7 @@ class GameService {
         'GAME',
         'UPDATE',
         'ERROR',
-        `Failed to save game with id ${id}: ${error}`
+        `Failed to save game with id ${id}: ${String(error)}`
       );
       throw new Error('Failed to save game');
     }
@@ -147,7 +149,7 @@ class GameService {
 
   async update(id: string, data: Partial<UpdateGameInput>) {
     try {
-      return prisma.$transaction(async (tx) => {
+      return await prisma.$transaction(async (tx) => {
         const { completed, ...gameData } = data;
 
         const updatedGame = await tx.game.update({
@@ -198,7 +200,7 @@ class GameService {
         'GAME',
         'UPDATE',
         'ERROR',
-        `Failed to update game with id ${id}: ${error}`
+        `Failed to update game with id ${id}: ${String(error)}`
       );
       throw new Error('Failed to update game');
     }
@@ -221,7 +223,7 @@ class GameService {
         );
         throw new Error('Game not found');
       }
-      return prisma.game.delete({
+      return await prisma.game.delete({
         where: {
           id: id,
           playerId: playerId,
@@ -232,7 +234,9 @@ class GameService {
         'GAME',
         'REMOVE',
         'ERROR',
-        `Failed to delete game with id ${id} for player ${playerId}: ${error}`
+        `Failed to delete game with id ${id} for player ${playerId}: ${String(
+          error
+        )}`
       );
       throw new Error('Failed to delete game');
     }
@@ -240,7 +244,7 @@ class GameService {
 
   async addDungeon(gameId: string, type: DUNGEON) {
     try {
-      return prisma.game_Step.create({
+      return await prisma.game_Step.create({
         data: {
           type,
           game: {
@@ -253,7 +257,9 @@ class GameService {
         'GAME',
         'INSERT',
         'ERROR',
-        `Failed to add dungeon of type ${type} to game with id ${gameId}: ${error}`
+        `Failed to add dungeon of type ${type} to game with id ${gameId}: ${String(
+          error
+        )}`
       );
       throw new Error('Failed to add dungeon to game');
     }

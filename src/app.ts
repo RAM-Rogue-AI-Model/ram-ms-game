@@ -37,5 +37,6 @@ app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.listen(port, () => {
   // eslint-disable-next-line no-console
   console.log(`Server is running on http://localhost:${port}`);
+  // eslint-disable-next-line no-console
   console.log(`docs available at http://localhost:${port}/docs`);
 });
