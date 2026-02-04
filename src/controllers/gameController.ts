@@ -184,10 +184,8 @@ class GameController {
         res.json(dungeons);
         return;
       } else {
-        const lastDungeon = gameExists.steps[gameExists.steps.length - 1];
-        if (!lastDungeon.completed) {
-          return res.status(400).json({ error: 'Last dungeon not completed' });
-        } else {
+        const lastDungeon = gameExists.steps.at(-1);
+        if (lastDungeon?.completed) {
           const datacenterProba = getRandomInt(100);
           if (datacenterProba <= 20) dungeons.push('DATACENTER');
 
@@ -196,6 +194,8 @@ class GameController {
 
           res.json(dungeons);
           return;
+        } else {
+          return res.status(400).json({ error: 'Last dungeon not completed' });
         }
       }
     } catch (err) {
