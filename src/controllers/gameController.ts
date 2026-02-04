@@ -106,6 +106,8 @@ class GameController {
         return res.status(400).json({ error: 'Missing parameters' });
       }
 
+      console.log(id, playerId)
+
       const gameExists = await this.service.getById(id, playerId);
       if (!gameExists) {
         return res.status(404).json({ error: 'Game not found' });

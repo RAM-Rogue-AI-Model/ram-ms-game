@@ -31,5 +31,5 @@ model Game_Step {
   completed Boolean  @default(false)
   date_add  DateTime @default(now())
   game_id   String
-  game      Game     @relation(fields: [game_id], references: [id])
+  game      Game     @relation(fields: [game_id], references: [id], onDelete: Cascade)
 }
