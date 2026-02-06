@@ -125,15 +125,6 @@ class GameService {
         },
         data: data,
       });
-      if (result === null) {
-        void sendLog(
-          'GAME',
-          'UPDATE',
-          'ERROR',
-          `Failed to save game with id ${id}`
-        );
-        throw new Error('Failed to save game');
-      }
       void sendLog('GAME', 'UPDATE', 'INFO', `Saved game with id ${id}`);
       return result;
     } catch (error) {
@@ -159,16 +150,6 @@ class GameService {
           },
           data: gameData,
         });
-
-        if (updatedGame === null) {
-          void sendLog(
-            'GAME',
-            'UPDATE',
-            'ERROR',
-            `Failed to update game with id ${id}`
-          );
-          throw new Error('Failed to update game');
-        }
 
         if (completed === true) {
           const lastStep = await tx.game_Step.findFirst({
