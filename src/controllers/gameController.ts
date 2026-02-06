@@ -87,7 +87,9 @@ class GameController {
         return res.status(404).json({ error: 'Game not found' });
       }
 
-      const updatedGame = await this.service.update(id, body);
+      await this.service.update(id, body);
+
+      const updatedGame = await this.service.getById(id, body.playerId)
       res.json(updatedGame);
     } catch (err) {
       console.error(err);
